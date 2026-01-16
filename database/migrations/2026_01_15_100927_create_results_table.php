@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('intake_id') //intakesとの関連付け
+                  ->constrained()
+                  ->cascadeOnDelete(); 
+            $table->text('results'); //分析結果の文章
+            $table->decimal('results_number', 10, 2)->nullable(); 
+            // 分析結果の数値データ
+            $table->softDeletes();
             $table->timestamps();
         });
     }

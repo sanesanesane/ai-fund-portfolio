@@ -11,8 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('questions', function (Blueprint $table) 
+        {
             $table->id();
+            $table->string('code', 10)->unique(); // 質問番号
+            $table->text('text'); //質問文カラム
+            $table->string('type', 10)->nullable(); // 質問属性（A/Cなど）NULLもあり。
+            $table->boolean('modify')->default(false);    // 補正目的なら1
+            $table->boolean('inversion')->default(false); // 反転質問なら1
+            $table->softDeletes();
             $table->timestamps();
         });
     }

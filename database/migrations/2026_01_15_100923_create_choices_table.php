@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('choices', function (Blueprint $table) {
+        Schema::create('choices', function (Blueprint $table)
+        {
             $table->id();
+            $table->string('label'); //選択肢の文章
+            $table->unsignedTinyInteger('score')->comment('例：0〜5'); //回答の数値データ（0から5）
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

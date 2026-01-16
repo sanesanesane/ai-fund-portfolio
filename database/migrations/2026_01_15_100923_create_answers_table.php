@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('answers', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) 
+        {
             $table->id();
+            $table->foreignId('intake_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->json('answers_json');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
