@@ -13,6 +13,25 @@
     投資の考え方をサポートします。
   </p>
 
-  <a href="/intake/create">診断開始</a>
+  @if ($errors->any())
+    <div style="border:1px solid #f00; padding:12px; margin:12px 0;">
+      <ul>
+        @foreach ($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+
+  <form method="POST" action="{{ route('start.store') }}">
+    @csrf
+
+    <div style="margin-bottom:12px;">
+      <label for="name">名前</label><br>
+      <input id="name" name="name" type="text" value="{{ old('name') }}" required>
+    </div>
+
+    <button type="submit">診断開始</button>
+  </form>
 </body>
 </html>

@@ -17,6 +17,15 @@ class IntakeController extends Controller
     //データの保存
     public function store(Request $request)
     {
+
+    // 〇 user_idとの関連用
+        $userId = $request->session()->get('user_id');
+        if (!$userId)
+             {
+            return redirect()->route('top')
+                ->withErrors(['name' => '最初に名前を入力してから診断を開始してください。']);
+             }
+
     //データを入れるモデルを用意。
     $intake = new Intake();
 
@@ -52,12 +61,15 @@ class IntakeController extends Controller
         }
     
     //〇作った変数をDBへ代入する処理
+    $intake->user_id = $userId;
     $intake->age = $age;
     $intake->budget = $budget;
     $intake->experience =$experience;
 
     $intake->save();
-    return redirect()->route('top');
+    //テスト用 return redirect()->route('top');
+
+    return redirect()->route('question.create');
     
     }
 }

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('choices', function (Blueprint $table)
         {
             $table->id();
+            $table->foreignId('question_id') //質問IDとの連結
+                  ->constrained('questions')
+                  ->cascadeOnDelete();
             $table->string('label'); //選択肢の文章
             $table->unsignedTinyInteger('score')->comment('例：0〜5'); //回答の数値データ（0から5）
             $table->timestamps();
