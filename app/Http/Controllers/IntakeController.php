@@ -56,7 +56,7 @@ class IntakeController extends Controller
     if (preg_match('/^\-/', $budget)) //入力にマイナスがあった場合
         {
         return back()
-        ->withErrors(['budget' => '年齢にマイナスは入力できません。'])
+        ->withErrors(['budget' => '投資額にマイナスは入力できません。'])
         ->withInput();
         }
     
@@ -67,6 +67,7 @@ class IntakeController extends Controller
     $intake->experience =$experience;
 
     $intake->save();
+    $request->session()->put('intake_id', $intake->id);
     //テスト用 return redirect()->route('top');
 
     return redirect()->route('question.create');

@@ -33,8 +33,14 @@ class QuestionController extends Controller
         return redirect()->route('top');
         }
 
+        // 〇今回の診断回（intake）判定：sessionのintake_id
+        $intakeId = $request->session()->get('intake_id');
+        if (!$intakeId) {
+        return redirect()->route('top'); // 本当はintake入力画面へが理想
+        }
+
         //〇バリデーションのための準備
-        $questions = Question::orderBy('id')->get();
+        $questions = Question::with('choices')->orderBy('id')->get();
 
         //〇バリデーション
         $rules = 
@@ -59,16 +65,16 @@ class QuestionController extends Controller
         $validated = $request->validate($rules, $messages); //入力された内容にルールが守られているか確認。守られているデータのみ挿入。
         
 
-        DB::transaction(function () use ($validated, $userId) {
+        DB::transaction(function () use ($validated, $intakeId) {
 
         // 上書き保存（履歴を残さない方式）
-        Answer::where('user_id', $userId)->delete();
+        Answer::where('intake_id', $intakeId)->delete();
 
         $rows = [];
             foreach ($validated['answers'] as $questionId => $choiceId) 
                 {
                 $rows[] = [
-                    'user_id' => $userId,
+                    'intake_id'   => $intakeId,
                     'question_id' => (int)$questionId,
                     'choice_id' => (int)$choiceId,
                     'created_at' => now(),
