@@ -12,4 +12,11 @@ public function choices(): HasMany //choiceとの連結
     {
         return $this->hasMany(Choice::class); //一つの質問に複数の選択肢が必要となる。
     }
+
+public function answers(): HasMany
+{
+    return $this->hasMany(Answer::class);
+}
+
+
 }

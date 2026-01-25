@@ -15,4 +15,10 @@ class Choice extends Model
     {
         return $this->belongsTo(Question::class);
     }
+
+    public function answers(): HasMany
+    {
+    return $this->hasMany(Answer::class);
+    }
+    
 }

@@ -14,10 +14,19 @@ return new class extends Migration
         Schema::create('answers', function (Blueprint $table) 
         {
             $table->id();
+
             $table->foreignId('intake_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->json('answers_json');
+
+            $table->foreignId('question_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('choice_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            
             $table->timestamps();
             $table->softDeletes();
         });
