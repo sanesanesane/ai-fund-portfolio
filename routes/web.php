@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StartController;
 use App\Http\Controllers\IntakeController; //intakesコントローラー
 use App\Http\Controllers\QuestionController; //questionsコントローラー
+use OpenAI\Laravel\Facades\OpenAI;
 
 //〇最初のトップ画面
 Route::get('/', function () {
@@ -22,4 +23,13 @@ Route::post('/intake/store', [IntakeController::class, 'store'])->name('intake.s
 Route::get('/question/create', [QuestionController::class, 'create'])->name('question.create');
 Route::post('/question/store', [QuestionController::class, 'store'])->name('question.store');
 
+//〇APIのテスト
+Route::get('/ai-test', function () {
+    $response = OpenAI::responses()->create([
+        'model' => 'gpt-5-mini',
+        'input' => 'こんにちは！一言だけ返して',
+    ]);
+
+    return $response->outputText ?? '返答がありません';
+});
 
